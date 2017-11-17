@@ -1,0 +1,25 @@
+{
+  "name": "mpg-api",
+  "version": "1.0.0",
+  "description": "Backend HTTP API for the MPG application",
+  "main": "app/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linuxserver/mpg-api.git"
+  },
+  "author": "Josh Stark <stark@linuxserver.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/linuxserver/mpg-api/issues"
+  },
+  "homepage": "https://github.com/linuxserver/mpg-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "helmet": "^3.9.0",
+    "mysql": "^2.15.0"
+  }
+}

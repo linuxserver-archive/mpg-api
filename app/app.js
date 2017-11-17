@@ -5,8 +5,10 @@ var db = require("./db/mysql");
 app.use(require("helmet")());
 app.use(require("body-parser").json());
 
-app.use('/vehicle', require("./routes/vehicle"));
-app.use('/vehicle/:id/fuel', require("./routes/fuel"));
+app.use("/units", require("./routes/units"));
+app.use("/vehicle", require("./routes/vehicle"));
+app.use("/vehicle/:id/fuel", require("./routes/fuel"));
+app.use("/ping", require("./routes/ping"));
 
 db.connect(function(err) {
 

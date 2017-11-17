@@ -3,7 +3,7 @@ delimiter $$
 CREATE TABLE `fuelUnits` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `unit` VARCHAR(20) NOT NULL,
-    `unitName` VARCHAR(20) NOT NULL,
+    `unitName` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `id_UNIQUE` (`id` ASC)
 )$$
@@ -11,7 +11,7 @@ CREATE TABLE `fuelUnits` (
 CREATE TABLE `fuelConsumptionUnits` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `unit` VARCHAR(20) NOT NULL,
-    `unitName` VARCHAR(20) NOT NULL,
+    `unitName` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `id_UNIQUE` (`id` ASC)
 )$$
@@ -19,24 +19,25 @@ CREATE TABLE `fuelConsumptionUnits` (
 CREATE TABLE `distanceUnits` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `unit` VARCHAR(20) NOT NULL,
-    `unitName` VARCHAR(20) NOT NULL,
+    `unitName` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `id_UNIQUE` (`id` ASC)
 )$$
 
 CREATE TABLE `fuelTypes` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `type` VARCHAR(20) NOT NULL,
+    `type` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `id_UNIQUE` (`id` ASC)
 )$$
 
 CREATE TABLE `vehicles` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `name` varchar(100) NOT NULL,
-    `registration` varchar(20) DEFAULT NULL,
-    `make` varchar(100) DEFAULT NULL,
-    `model` varchar(100) DEFAULT NULL,
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    `registration` VARCHAR(20) DEFAULT NULL,
+    `make` VARCHAR(100) DEFAULT NULL,
+    `model` VARCHAR(100) DEFAULT NULL,
+    `picture` VARCHAR(100) DEFAULT NULL,
     `yearOfManufacture` INT(11) NULL,
     `vin` VARCHAR(100) NULL,
     `fuelType` INT(11) NOT NULL,

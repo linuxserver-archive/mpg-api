@@ -17,5 +17,5 @@ INSERT INTO `distanceUnits` (`unit`, `unitName`) VALUES ("km", "Kilometres")$$
 INSERT INTO `fuelConsumptionUnits` (`unit`, `unitName`) VALUES ("mpg", "Miles per Gallon")$$
 INSERT INTO `fuelConsumptionUnits` (`unit`, `unitName`) VALUES ("km/l", "Kilometres per Litre")$$
 INSERT INTO `fuelConsumptionUnits` (`unit`, `unitName`) VALUES ("mi/l", "Miles per Litre")$$
-INSERT INTO `fuelConsumptionUnits` (`unit`, `unitName`) VALUES ("kWh/mi", "Kilowatt Hours per Mile")$$
-INSERT INTO `fuelConsumptionUnits` (`unit`, `unitName`) VALUES ("kWh/km", "Kilowatt Hours per Kilometre")$$
+INSERT INTO `fuelConsumptionUnits` (`unit`, `unitName`) VALUES ("mi/kWh", "Miles per Kilowatt Hour")$$
+INSERT INTO `fuelConsumptionUnits` (`unit`, `unitName`) VALUES ("km/kWh", "Kilometres per Kilowatt Hour")$$

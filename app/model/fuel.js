@@ -2,7 +2,7 @@ var db = require("../db/mysql");
 
 module.exports = (function() {
 
-    var findAll;
+    var findAll, find, create, update, remove;
 
     findAll = function(vehicleId, done) {
 

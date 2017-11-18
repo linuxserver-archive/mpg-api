@@ -8,6 +8,15 @@ var state = {
     pool: null
 };
 
+var resultsHandler = function(field, next) {
+
+    if (field.type == "TINY" && field.length == 1) {
+        return field.string() == "1";
+    }
+
+    return next();
+};
+
 exports.connect = function(done) {
 
     state.pool = mysql.createPool({
@@ -15,7 +24,9 @@ exports.connect = function(done) {
         host: HOST,
         user: USERNAME,
         password: PASSWORD,
-        database: "mpg"
+        database: "mpg",
+        multipleStatements: true,
+        typeCast: resultsHandler
     });
 
     done();
@@ -23,4 +34,11 @@ exports.connect = function(done) {
 
 exports.get = function() {
     return state.pool;
+};
+
+exports.CURRENT_TIMESTAMP = {
+
+    toSqlString: function() {
+        return "CURRENT_TIMESTAMP()";
+    }
 };

@@ -77,7 +77,7 @@ module.exports = (function() {
 
     remove = function(id, done) {
 
-        db.get().query("DELETE FROM fuel WHERE vehicleId = ?; DELETE FROM costs WHERE vehicleId = ?; DELETE FROM vehicles WHERE id = ?", function(error, results) {
+        db.get().query("DELETE FROM fuel WHERE vehicle = ?; DELETE FROM costs WHERE vehicle = ?; DELETE FROM vehicles WHERE id = ?", [id, id, id], function(error, results) {
 
             if (error) return done(error);
             done();

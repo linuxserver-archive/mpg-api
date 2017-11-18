@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
-var model = require("../model/vehicle");
+var Vehicle = require("../model/vehicle");
+var Fuel = require("../model/fuel");
 
 var responseHandler = function(res, key, response, error) {
 
@@ -19,23 +20,26 @@ var responseHandler = function(res, key, response, error) {
     }
 };
 
+// VEHICLE
+// -------
+
 router.get('/', function(req, res) {
 
-    model.findAll(function(error, vehicles) {
+    Vehicle.findAll(function(error, vehicles) {
         responseHandler(res, "vehicles", vehicles, error);
     });
 });
 
 router.get('/:id', function(req, res) {
 
-    model.find(req.params.id, function(error, vehicle) {
+    Vehicle.find(req.params.id, function(error, vehicle) {
         responseHandler(res, "vehicle", vehicle, error);
     });
 });
 
 router.post('/', function(req, res) {
 
-    model.create(req.body, function(error, id) {
+    Vehicle.create(req.body, function(error, id) {
 
         if (error) {
             res.status(500).json({
@@ -43,7 +47,7 @@ router.post('/', function(req, res) {
             });
         } else {
 
-            model.find(id, function(error, vehicle) {
+            Vehicle.find(id, function(error, vehicle) {
                 responseHandler(res, "vehicle", vehicle, error);
             });
         }
@@ -54,7 +58,7 @@ router.put('/:id', function(req, res) {
 
     var id = req.params.id;
 
-    model.update(req.params.id, req.body, function(error) {
+    Vehicle.update(req.params.id, req.body, function(error) {
 
         if (error) {
             res.status(500).json({
@@ -62,10 +66,76 @@ router.put('/:id', function(req, res) {
             });
         } else {
 
-            model.find(id, function(error, vehicle) {
+            Vehicle.find(id, function(error, vehicle) {
                 responseHandler(res, "vehicle", vehicle, error);
             });
         }
+    });
+});
+
+router.delete("/:id", function(req, res) {
+
+    Vehicle.remove(req.params.id, function(error) {
+        responseHandler(res, "status", "Item deleted", error);
+    });
+});
+
+// FUEL
+// ----
+router.get('/:vehicleId/fuel', function(req, res) {
+
+    Fuel.findAll(req.params.vehicleId, function(error, fuel) {
+        responseHandler(res, "fuel", fuel, error);
+    });
+});
+
+router.get('/:vehicleId/fuel/:id', function(req, res) {
+
+    Fuel.find(req.params.vehicleId, req.params.id, function(error, fuel) {
+        responseHandler(res, "fuel", fuel, error);
+    });
+});
+
+router.post('/:vehicleId/fuel', function(req, res) {
+
+    Fuel.create(req.params.vehicleId, req.body, function(error, id) {
+
+        if (error) {
+            res.status(500).json({
+                "status": error
+            });
+        } else {
+
+            Fuel.find(req.params.vehicleId, id, function(error, fuel) {
+                responseHandler(res, "fuel", fuel, error);
+            });
+        }
+    });
+});
+
+router.put('/:vehicleId/fuel/:id', function(req, res) {
+
+    var id = req.params.id;
+
+    Fuel.update(req.params.vehicleId, req.params.id, req.body, function(error) {
+
+        if (error) {
+            res.status(500).json({
+                "status": error
+            });
+        } else {
+
+            Fuel.find(req.params.vehicleId, id, function(error, fuel) {
+                responseHandler(res, "fuel", fuel, error);
+            });
+        }
+    });
+});
+
+router.delete("/:vehicleId/fuel/:id", function(req, res) {
+
+    Fuel.remove(req.params.vehicleId, req.params.id, function(error) {
+        responseHandler(res, "status", "Item deleted", error);
     });
 });
 

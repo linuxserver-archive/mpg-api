@@ -67,7 +67,7 @@ CREATE  TABLE `fuel` (
     `locationLongitude` DECIMAL(11,8) NULL,
     `odometerReading` INT(11) NULL,
     `notes` TEXT NULL,
-    `fullTank` TINYINT(1) NULL DEFAULT 1
+    `fullTank` TINYINT(1) NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `id_UNIQUE` (`id` ASC),
     INDEX `FK_fuel_vehicleId_idx` (`vehicle` ASC),
@@ -86,4 +86,12 @@ CREATE TABLE `costs` (
     UNIQUE INDEX `id_UNIQUE` (`id` ASC),
     INDEX `FK_cost_vehicleId_idx` (`vehicle` ASC),
     CONSTRAINT `FK_cost_vehicleId` FOREIGN KEY (`vehicle`) REFERENCES `vehicles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+)$$
+
+CREATE TABLE `users` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `email` VARCHAR(100) NOT NULL,
+    `password` VARCHAR(100) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `id_UNIQUE` (`id` ASC)
 )$$

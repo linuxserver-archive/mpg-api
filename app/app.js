@@ -2,25 +2,17 @@ var express = require("express");
 var morgan = require("morgan");
 var db = require("./db/mysql");
 var app = express();
+var auth = require("./auth");
 
 app.use(require("helmet")());
 app.use(require("body-parser").json());
 app.use(morgan("combined"));
+app.use(auth.initialize());
 
-app.use(function(req, res, next) {
-
-    var apiKey = req.query.apiKey || req.headers["x-api-key"];
-
-    if (apiKey === process.env.API_KEY) {
-        next();
-    } else {
-        res.status(401).json({ status: "Incorrect API key" });
-    }
-});
-
-app.use("/units", require("./routes/units"));
-app.use("/vehicle", require("./routes/vehicle"));
-app.use("/ping", require("./routes/ping"));
+app.use("/units", auth.authenticate(), require("./routes/units"));
+app.use("/vehicle", auth.authenticate(), require("./routes/vehicle"));
+app.use("/ping", auth.authenticate(), require("./routes/ping"));
+app.use("/token", require("./routes/token"));
 
 db.connect(function(err) {
 

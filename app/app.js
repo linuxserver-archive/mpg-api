@@ -1,18 +1,20 @@
-var express = require("express");
-var morgan = require("morgan");
-var db = require("./db/mysql");
-var app = express();
-var auth = require("./auth");
+var express = require("express"),
+    morgan = require("morgan"),
+    db = require("./db/mysql"),
+    app = express(),
+    auth = require("./auth");
 
 app.use(require("helmet")());
 app.use(require("body-parser").json());
 app.use(morgan("combined"));
-app.use(auth.initialize());
 
-app.use("/units", auth.authenticate(), require("./routes/units"));
-app.use("/vehicle", auth.authenticate(), require("./routes/vehicle"));
-app.use("/ping", auth.authenticate(), require("./routes/ping"));
-app.use("/token", require("./routes/token"));
+// Unauthenticated endpoint used for checking user credentials
+app.use("/auth", require("./routes/auth"));
+
+// All authenticated endpoints - user must provide a valid JWT in the header
+app.use("/units", auth.verify, require("./routes/units"));
+app.use("/vehicle", auth.verify, require("./routes/vehicle"));
+app.use("/ping", auth.verify, require("./routes/ping"));
 
 db.connect(function(err) {
 

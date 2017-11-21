@@ -13,9 +13,9 @@ module.exports = (function() {
         });
     };
 
-    findByEmail = function(email, done) {
+    findByUsername = function(username, done) {
 
-        db.get().query("SELECT * FROM users WHERE email = ?", email, function(error, results) {
+        db.get().query("SELECT * FROM users WHERE username = ?", username, function(error, results) {
 
             if (error) return done(error);
             done(null, results[0]);
@@ -24,7 +24,7 @@ module.exports = (function() {
 
     return {
         find: find,
-        findByEmail: findByEmail
+        findByUsername: findByUsername
     };
 
 }());

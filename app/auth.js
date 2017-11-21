@@ -1,44 +1,52 @@
-var passport = require("passport");
-var passportJWT = require("passport-jwt");
-var jwt = require('jsonwebtoken');
-var User = require("./model/user");
+var jwt = require('jsonwebtoken'),
+    _ = require("lodash"),
+    User = require("./model/user");
 
-var ExtractJwt = passportJWT.ExtractJwt;
-var Strategy = passportJWT.Strategy;
-
-var jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("JWT"),
-    secretOrKey: "linuxserverrocks"
-};
+var secret = process.env.AUTH_SECRET;
 
 module.exports = (function() {
 
-    var strategy = new Strategy(jwtOptions, function(payload, next) {
+    var unauthorised = function(res, message) {
 
-        User.find(payload.id, function(done, user) {
-
-            if (user) {
-                next(null, { id: user.id, email: user.email });
-            } else {
-                next(new Error("User not found"), null);
-            }
+        return res.status(401).json({
+            status: "Unauthorised",
+            message: message
         });
-    });
-
-    passport.use(strategy);
+    };
 
     return {
 
-        initialize: function() {
-            return passport.initialize();
-        },
+        verify: function(req, res, next) {
 
-        authenticate: function() {
-            return passport.authenticate("jwt", { session: false });
+            var authHeader = req.headers.authorization;
+
+            if (authHeader) {
+
+                var token = _.split(authHeader, "JWT ")[1];
+
+                jwt.verify(token, secret, function(error, decodedToken) {
+
+                    if (error) {
+                        return unauthorised(res, error.message);
+                    } else {
+
+                        req.user = decodedToken;
+                        next();
+                    }
+                });
+
+            } else {
+                return unauthorised(res, "No JWT provided in Authorization header");
+            }
         },
 
         sign: function(payload) {
-            return jwt.sign(payload, jwtOptions.secretOrKey);
-        }
+
+            return jwt.sign(payload, secret, {
+                expiresIn: "60m"
+            });
+        },
+
+        unauthorised: unauthorised
     };
 }());
